@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ShiftBOT\n"
+"POT-Creation-Date: 2016-11-19 15:05+0900\n"
+"PO-Revision-Date: 2016-11-19 15:06+0900\n"
+"Last-Translator: kazy111 <kazy@kazy111.info>\n"
+"Language-Team: \n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: src\n"
+"X-Poedit-SearchPath-1: src/Commands\n"
+"X-Poedit-SearchPath-2: src/Constants\n"
+"X-Poedit-SearchPath-3: templates\n"
+
+#: src/Commands/AttendCommand.php:12
+msgid "too many names"
+msgstr "キャスト名が多過ぎやで…"
+
+#: src/Commands/AttendCommand.php:16
+msgid "internal error - dates and attends data count mismatch"
+msgstr "内部エラー起こってもうたわ。日付と日付区分の数が一致せん…"
+
+#: src/Commands/AttendCommand.php:35
+msgid "today's casts: "
+msgstr "本日の出勤: "
+
+#: src/Commands/AttendCommand.php:37 src/Commands/AttendCommand.php:97
+msgid "None"
+msgstr "なし"
+
+#: src/Commands/AttendCommand.php:54 src/Commands/AttendCommand.php:114
+msgid "cast not found"
+msgstr "キャスト名が登録されてへんっぽいで？"
+
+#: src/Commands/AttendCommand.php:71
+#, php-format
+msgid "%s's schedule: "
+msgstr "%sの出勤: "
+
+#: src/Commands/AttendCommand.php:73
+msgid "TBD"
+msgstr "未定"
+
+#: src/Commands/AttendCommand.php:84
+msgid "too many dates"
+msgstr "指定する日付が多過ぎるわ…"
+
+#: src/Commands/AttendCommand.php:95
+#, php-format
+msgid "Attendance on %s: "
+msgstr "%sの出勤: "
+
+#: src/Commands/AttendCommand.php:168 src/Commands/CastCommand.php:99
+msgid "register completed."
+msgstr "登録完了やで！"
+
+#: src/Commands/CastCommand.php:12
+msgid "no name"
+msgstr "キャスト名が指定されてへんで…"
+
+#: src/Commands/CastCommand.php:16
+msgid "invalid arguments"
+msgstr "不正な引数やわ…"
+
+#: src/Commands/CastCommand.php:58
+msgid "internal error - cannot add cast"
+msgstr "内部エラーが起こってもうたわ。キャスト登録に失敗したぽい…"
+
+#: src/Commands/CastCommand.php:63
+msgid "multiple names already registered."
+msgstr "もう登録されとるキャスト名が複数あるで…"
+
+#: src/routes.php:201
+msgid "Error: "
+msgstr "エラーや！"
+
+#: templates/calendar.phtml:7
+#, php-format
+msgid "%s attendance"
+msgstr "%s出勤"
+
+#: templates/calendar.phtml:71
+msgid "prev month"
+msgstr "&lt;前月"
+
+#: templates/calendar.phtml:72
+msgid "next month"
+msgstr "次月&gt;"
+
+#: templates/calendar.phtml:79
+msgid "count"
+msgstr "人数"
+
+#: templates/calendar.phtml:91
+msgid "Sun"
+msgstr "日"
+
+#: templates/calendar.phtml:91
+msgid "Mon"
+msgstr "月"
+
+#: templates/calendar.phtml:91
+msgid "Tue"
+msgstr "火"
+
+#: templates/calendar.phtml:91
+msgid "Wed"
+msgstr "水"
+
+#: templates/calendar.phtml:91
+msgid "Thu"
+msgstr "木"
+
+#: templates/calendar.phtml:91
+msgid "Fri"
+msgstr "金"
+
+#: templates/calendar.phtml:91
+msgid "Sat"
+msgstr "土"

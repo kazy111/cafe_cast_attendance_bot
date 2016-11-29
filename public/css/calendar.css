@@ -1,0 +1,66 @@
+/* calendar table */
+table.calendar-table {
+    border-collapse: collapse;
+}
+table.calendar-table td {
+    padding: 4px;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    min-width: 1.5em;
+}
+.header-month {
+    width: 25px;
+}
+.header-name, .header-month {
+    min-height: 100px;
+    background-color: #B07A0F;
+    color: #FAE9C8;
+    text-align: center;
+}
+.header-name > span, .header-month > span {
+    display: block;
+    writing-mode: vertical-rl;
+    -ms-writing-mode: tb-rl;            /* IE用　*/
+    -webkit-writing-mode: vertical-rl;  /* chrome用　*/
+    -o-writing-mode: vertical-rl;       /* opera用　*/
+    white-space:nowrap;
+    margin:0 auto;
+}
+.header-name.even, .header-month {
+    background-color: #926100;
+}
+table.calendar-table tr .header-date {
+    background-color: #B07A0F;
+    color: #FAE9C8;
+    font-weight: bold;
+}
+table.calendar-table tr.even .header-date {
+    background-color: #926100;
+    color: #FAE9C8;
+    font-weight: bold;
+}
+tr td {
+    background-color: #fff;
+}
+tr td.even {
+    background-color: #FAE9C8;
+}
+tr.even td {
+    background-color: #FAE9C8;
+}
+tr.even td.even {
+    background-color: #EFCF8F;
+}
+div.scroll-div {
+    overflow: auto;
+}
+/* header-link */
+.calendar-link .calendar-prev-link {
+    display: block;
+    text-align: left;
+    float: left;
+}
+.calendar-link .calendar-next-link {
+    display: block;
+    text-align: right;
+}

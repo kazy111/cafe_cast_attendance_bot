@@ -1,0 +1,31 @@
+{
+    "name": "cast-shift-bot",
+    "description": "Cafe cast shift management BOT for LINE",
+    "keywords": ["microframework", "rest", "router", "psr7"],
+    "homepage": "http://github.com/kazy111/cafe_shift_bot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kazy111",
+            "email": "kazy@kazy111.info",
+            "homepage": "http://kazy111.info/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "slim/slim": "^3.1",
+        "slim/php-view": "^2.0",
+        "monolog/monolog": "^1.17",
+        "linecorp/line-bot-sdk": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ShiftBot\\": "src/"
+        }
+    },
+    "scripts": {
+        "start": "php -S 0.0.0.0:8080 -t public public/index.php",
+        "test": "phpunit"
+    }
+
+}

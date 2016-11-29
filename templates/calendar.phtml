@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <script type="text/javascript" src="../../js/fixed_midashi.js"></script>
+    <title><?= sprintf(_('%s attendance'), $title) ?> (<?= $year ?>/<?= $month ?>)</title>
+    <link type="text/css" rel="stylesheet" href="../../css/calendar.css" />
+</head>
+<body onLoad="FixedMidashi.create();">
+    <div class="calendar-link">
+        <span class="calendar-prev-link"><a href="../<?= $prevMonth->format('Y/m') ?>"><?= _('prev month') ?></a></span>
+        <span class="calendar-next-link"><a href="../<?= $nextMonth->format('Y/m') ?>"><?= _('next month') ?></a></span>
+    </div>
+    <div class="scroll-div">
+    <table data-fixedhead="rows:1; cols:2" class="calendar-table">
+        <thead>
+            <tr>
+                <th class="header-month"><span><?= $year ?>/<?= $month ?></span></th>
+                <th class="header-month"><span><?= _('count')?></span></th>
+<?php
+    for($i = 0; $i < count($casts); $i++) {
+?>
+                <th class="header-name<?= ($i % 2 === 0 ? '' : ' even') ?>"><span><?= $casts[$i] ?></span></th>
+<?php
+    }
+?>
+            </tr>
+        </thead>
+        <tbody>
+<?php
+    $week = [_('Sun'), _('Mon'), _('Tue'), _('Wed'), _('Thu'), _('Fri'), _('Sat')];
+
+    for($i = 0; $i < count($calendar); $i++) {
+        $row = $calendar[$i];
+        $n = 0;
+        foreach($row as $val){
+            if ($val === '1') { $n++; }
+        }
+?>
+            <tr<?= ($i % 2 === 0 ? '' : ' class="even"') ?>>
+                <td class="header-date"><?= $i+1 ?>(<?= $week[date_create(sprintf('%s-%s-%s', $year, $month, $i+1))->format('w')] ?>)</td>
+                <td class="header-date"><?= $n ?></td>
+<?php
+        for($j = 0; $j < count($row); $j++) {
+?>
+                <td<?= ($j % 2 === 0 ? '' : ' class="even"') ?>><?= $row[$j] == '1' ? '○' : '' ?></td>
+<?php
+        }
+?>
+            </tr>
+<?php
+    }
+?>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
