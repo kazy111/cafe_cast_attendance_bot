@@ -1,5 +1,6 @@
 <?php
-ini_set("display_errors", On);
+date_default_timezone_set('Asia/Tokyo');
+ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 
 //$lang = mb_substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
