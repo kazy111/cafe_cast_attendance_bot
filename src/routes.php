@@ -176,7 +176,7 @@ $app->post('/callback', function ($req, $res, $args) {
                     $names[] = $token;
                     $nameMode = TRUE;
                     if ($index < $tokenCount) {
-                        if($tokens[$index] === '×') {
+                        if ($tokens[$index] === '×') {
                             $index++;
                             $nameMode = FALSE;
                         } else {
@@ -208,6 +208,12 @@ $app->post('/callback', function ($req, $res, $args) {
     return $res;
 });
 
+$app->get('/calendar', function ($req, $res, $args) {
+    return $res->withRedirect('./calendar/'.(string)date('Y').'/'.(string)date('m'));
+});
+$app->get('/calendar/', function ($req, $res, $args) {
+    return $res->withRedirect('./'.(string)date('Y').'/'.(string)date('m'));
+});
 
 $app->get('/calendar/{year}/{month}', function ($req, $res, $args) {
     // parse target month
@@ -224,10 +230,11 @@ $app->get('/calendar/{year}/{month}', function ($req, $res, $args) {
 
     // get casts
     $casts = array();
+    $urls = array();
     $pdo = $this->db;
     $sql = <<< EOM
     SELECT DISTINCT
-        c.cast_id, c.display_name
+        c.cast_id, c.display_name, c.url
      FROM casts AS c
     INNER JOIN attends AS a
        ON c.cast_id = a.cast_id
@@ -241,8 +248,10 @@ EOM;
     $stmt->execute(array(':start_date' => $startDate));
     while ($result = $stmt->fetch(\PDO::FETCH_ASSOC)) {
         $casts[] = $result['display_name'];
+        $urls[] = $result['url'];
     }
     $args['casts'] = $casts;
+    $args['urls'] = $urls;
 
     // get attends as calendar
     $sql = <<< EOM
@@ -291,4 +300,11 @@ EOM;
     $args['title'] = $this->get('settings')['title'];
     // Render calendar view
     return $this->renderer->render($res, 'calendar.phtml', $args);
+});
+
+
+$app->get('/about', function ($req, $res, $args) {
+    $args['title'] = $this->get('settings')['title'];
+    // Render about view
+    return $this->renderer->render($res, 'about.phtml', $args);
 });

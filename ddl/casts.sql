@@ -7,5 +7,6 @@ CREATE TABLE casts (
     create_id   varchar(100),
 	update_time timestamp,
     update_id   varchar(100),
+	url         text,
 	PRIMARY KEY (cast_id)
 );

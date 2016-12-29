@@ -10,6 +10,7 @@
 <body onLoad="FixedMidashi.create();">
     <div class="calendar-link">
         <span class="calendar-prev-link"><a href="../<?= $prevMonth->format('Y/m') ?>"><?= _('prev month') ?></a></span>
+        <span class="calendar-about-link"><a href="../../about"><?= _('about') ?></a></span>
         <span class="calendar-next-link"><a href="../<?= $nextMonth->format('Y/m') ?>"><?= _('next month') ?></a></span>
     </div>
     <div class="scroll-div">
@@ -19,10 +20,16 @@
                 <th class="header-month"><span><?= $year ?>/<?= $month ?></span></th>
                 <th class="header-month"><span><?= _('count')?></span></th>
 <?php
-    for($i = 0; $i < count($casts); $i++) {
+    for ($i = 0; $i < count($casts); $i++) {
+        if (is_null($urls[$i])) {
 ?>
                 <th class="header-name<?= ($i % 2 === 0 ? '' : ' even') ?>"><span><?= $casts[$i] ?></span></th>
 <?php
+        } else {
+?>
+                <th class="header-name<?= ($i % 2 === 0 ? '' : ' even') ?>"><span><a href="<?= $urls[$i] ?>"><?= $casts[$i] ?></a></span></th>
+<?php
+        }
     }
 ?>
             </tr>
@@ -31,7 +38,7 @@
 <?php
     $week = [_('Sun'), _('Mon'), _('Tue'), _('Wed'), _('Thu'), _('Fri'), _('Sat')];
 
-    for($i = 0; $i < count($calendar); $i++) {
+    for ($i = 0; $i < count($calendar); $i++) {
         $row = $calendar[$i];
         $n = 0;
         foreach($row as $val){
@@ -44,7 +51,7 @@
 <?php
         for($j = 0; $j < count($row); $j++) {
 ?>
-                <td<?= ($j % 2 === 0 ? '' : ' class="even"') ?>><?= $row[$j] == '1' ? '○' : '' ?></td>
+                <td<?= ($j % 2 === 0 ? '' : ' class="even"') ?>><?= $row[$j] == '1' ? '●' : ($row[$j] == '2' ? '－' : '') ?></td>
 <?php
         }
 ?>

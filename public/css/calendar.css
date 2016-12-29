@@ -2,11 +2,15 @@
 table.calendar-table {
     border-collapse: collapse;
 }
+table.calendar-table a{
+    color: white;
+}
 table.calendar-table td {
     padding: 4px;
     border-right: solid 1px black;
     border-bottom: solid 1px black;
     min-width: 1.5em;
+    text-align: center;
 }
 .header-month {
     width: 25px;
@@ -41,6 +45,7 @@ table.calendar-table tr.even .header-date {
 }
 tr td {
     background-color: #fff;
+    color: #744;
 }
 tr td.even {
     background-color: #FAE9C8;
@@ -63,4 +68,8 @@ div.scroll-div {
 .calendar-link .calendar-next-link {
     display: block;
     text-align: right;
+}
+.calendar-link .calendar-about-link {
+    float: left;
+    margin-left: 35%;
 }

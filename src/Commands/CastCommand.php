@@ -80,7 +80,7 @@ class CastCommand implements ICommand
                 if (($nameModes[$i] === TRUE && $castIds[$i] !== FALSE)  || ($nameModes[$i] === FALSE && $castIds[$i] === FALSE)) {
                     continue;
                 }
-                if ($nameModes[$i]){
+                if ($nameModes[$i]) {
                     $insStmt->execute(array(':name' => $names[$i], ':cast_id' => $castId, ':userid' => $userId));
                 } else {
                     $delStmt->execute(array(':name' => $names[$i]));
