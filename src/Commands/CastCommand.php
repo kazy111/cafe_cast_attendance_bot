@@ -4,8 +4,9 @@ namespace ShiftBot\Commands;
 class CastCommand implements ICommand
 {
     const NAME = 'キャスト';
+    const TWITTER_URL = 'https://twitter.com/';
 
-    private function checkInput($names, $dates, $dateAttends)
+    private function checkInput($names, $dates, $dateAttends, $twIds)
     {
         if (count($names) === 0) {
             // no name
@@ -15,11 +16,30 @@ class CastCommand implements ICommand
             // invalid arguments
             throw new \Exception(_('invalid arguments'));
         }
+
+        if (count($twIds) > 1) {
+            throw new \Exception(_('too many twitter ids'));
+        }
     }
 
     public function execute($app, $event, $names, $nameModes, $dates, $dateAttends)
     {
-        $this->checkInput($names, $dates, $dateAttends);
+        // split twitter-ids and normal-names
+        $twIds = array();
+        $newNames = array();
+        $newModes = array();
+        for ($i = 0; $i < count($names); $i++) {
+            if (strpos($names[$i], '@') === 0) {
+                $twIds[] = substr($names[$i], 1);
+            } else {
+                $newNames[] = $names[$i];
+                $newModes[] = $nameModes[$i];
+            }
+        }
+        $names = $newNames;
+        $nameModes = $newModes;
+
+        $this->checkInput($names, $dates, $dateAttends, $twIds);
 
         $regCount = 0;
         $castIds = array();
@@ -62,7 +82,12 @@ class CastCommand implements ICommand
                 // too many registerd names error
                 throw new \Exception(_('multiple names already registered.'));
             }
-            echo $castId;
+
+            if (count($twIds) > 0) {
+                $sql = 'UPDATE casts SET url = :url WHERE cast_id = :cast_id';
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(array(':url' => self::TWITTER_URL . $twIds[0], ':cast_id' => $castId));
+            }
 
             // register name master
             $insSql = 'INSERT INTO names (name, cast_id, create_time, create_id) VALUES (:name, :cast_id, now(), :userid)';
