@@ -28,7 +28,7 @@ return [
             'password' => '7FSl32+a'
         ],
 
-        'title' => 'エミュリボン',
+        'title' => '非公式エミュリボン',
         'siteBaseUrl' => 'https://kazy111.info/line_bot/',
     ],
 ];

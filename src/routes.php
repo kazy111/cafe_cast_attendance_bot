@@ -78,6 +78,19 @@ function parseDate($token)
 
 }
 
+function formatComment($comment) {
+    $result = array();
+    $tokens = mb_split('[ 　]', $comment);
+    foreach ($tokens as $token) {
+        if (strlen($token) > 0 && $token[0] == '#') {
+            $result[] = '<a class="hashtag" href="https://twitter.com/search?q='.urlencode($token).'">'.$token.'</a>';
+        } else {
+            $result[] = $token;
+        }
+    }
+    return implode(' ', $result);
+}
+
 $app->post('/callback', function ($req, $res, $args) {
 
     /** @var \LINE\LINEBot $bot */
@@ -135,6 +148,9 @@ $app->post('/callback', function ($req, $res, $args) {
                     break;
                 case Commands\CalendarCommand::NAME:
                     $command = new Commands\CalendarCommand();
+                    break;
+                case Commands\CommentCommand::NAME:
+                    $command = new Commands\CommentCommand();
                     break;
                 default:
                     // not command text
@@ -228,6 +244,7 @@ $app->get('/calendar/{year}/{month}', function ($req, $res, $args) {
     // format for SQL paramerter
     $startDate = $targetMonth->format('Y-m-d');//sprintf('%s-%s-01', $args['year'], $args['month']);
 
+    
     // get casts
     $casts = array();
     $urls = array();
@@ -252,6 +269,35 @@ EOM;
     }
     $args['casts'] = $casts;
     $args['urls'] = $urls;
+
+
+    // get comments & prepare calendar
+    $comments = array();
+    $calendar = array();
+    $sql = <<< EOM
+    SELECT
+        cal.date, COALESCE(c.comment, '') as comment
+    FROM (
+        SELECT
+            cast(:start_date as date) + s.i AS date
+        FROM
+            generate_series( 0, 31 ) as s(i)
+        WHERE
+            cast(:start_date as date) + s.i < cast(:start_date as date) + cast('1 month' as interval)
+    ) AS cal
+    LEFT JOIN comments AS c
+       ON cal.date = c.comment_date
+    ORDER BY cal.date
+EOM;
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array(':start_date' => $startDate));
+    while ($result = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        $comments[] = formatComment($result['comment']);
+        $calendar[] = array();
+    }
+    $args['comments'] = $comments;
+
 
     // get attends as calendar
     $sql = <<< EOM
@@ -280,7 +326,6 @@ EOM;
       AND c.cast_id = a.cast_id
     ORDER BY cal.date, c.cast_id
 EOM;
-    $calendar = array();
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(':start_date' => $startDate));
     $currDate = FALSE;
@@ -288,12 +333,12 @@ EOM;
     while ($result = $stmt->fetch(\PDO::FETCH_ASSOC)) {
         if ($currDate !== $result['date']) {
             $currDate = $result['date'];
-            $calendar[] = array();
             $index++;
         }
         $calendar[$index][] = $result['attend_type'];
     }
     $args['calendar'] = $calendar;
+
     $args['targetMonth'] = $targetMonth;
     $args['prevMonth'] = $prevMonth;
     $args['nextMonth'] = $nextMonth;
@@ -307,4 +352,36 @@ $app->get('/about', function ($req, $res, $args) {
     $args['title'] = $this->get('settings')['title'];
     // Render about view
     return $this->renderer->render($res, 'about.phtml', $args);
+});
+
+
+$app->get('/ical', function ($req, $res, $args) {
+    $vCalendar = new \Eluceo\iCal\Component\Calendar('kazy111.info');
+
+    $pdo = $this->db;
+    $sql = <<< EOM
+    SELECT
+        c.comment_date, c.comment
+    FROM comments AS c
+    ORDER BY c.comment_date
+EOM;
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    while ($result = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        $vEvent = new \Eluceo\iCal\Component\Event();
+        $comment_date = \DateTime::createFromFormat('Y-m-d', $result['comment_date']);
+        $vEvent
+            ->setDtStart($comment_date)
+            ->setDtEnd($comment_date)
+            ->setNoTime(true)
+            ->setSummary($result['comment']);
+        $vCalendar->addComponent($vEvent);
+    }
+
+    //header('Content-Type: text/calendar; charset=utf-8');
+    //header('Content-Disposition: attachment; filename="cal.ics"');
+    return $res->withHeader('Content-Type', 'text/calendar; charset=utf-8')
+        ->withHeader('Content-Disposition', 'attachment; filename="cal.ics"')
+        ->write($vCalendar->render());
+    //return $this->renderer->render($res, 'ical.phtml', $args);
 });

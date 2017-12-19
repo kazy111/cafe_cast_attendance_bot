@@ -32,6 +32,7 @@
         }
     }
 ?>
+                <th class="header-name header-comment<?= ($i % 2 === 0 ? '' : ' even') ?>"><span><?= _('comment')?></span></th>
             </tr>
         </thead>
         <tbody>
@@ -55,6 +56,8 @@
 <?php
         }
 ?>
+                <td class="comment<?= ($j % 2 === 0 ? '' : ' even') ?>"><?= $comments[$i] ?></td>
+
             </tr>
 <?php
     }

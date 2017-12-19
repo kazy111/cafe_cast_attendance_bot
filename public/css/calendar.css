@@ -5,12 +5,16 @@ table.calendar-table {
 table.calendar-table a{
     color: white;
 }
+table.calendar-table a.hashtag{
+    color: #CC2244;
+}
 table.calendar-table td {
     padding: 4px;
     border-right: solid 1px black;
     border-bottom: solid 1px black;
     min-width: 1.5em;
     text-align: center;
+    white-space: nowrap;
 }
 .header-month {
     width: 25px;
@@ -29,6 +33,7 @@ table.calendar-table td {
     -o-writing-mode: vertical-rl;       /* opera用　*/
     white-space:nowrap;
     margin:0 auto;
+    max-height: 100px; /* IE用 */
 }
 .header-name.even, .header-month {
     background-color: #926100;
@@ -55,6 +60,12 @@ tr.even td {
 }
 tr.even td.even {
     background-color: #EFCF8F;
+}
+tr td.comment {
+    text-align: left;
+    color: black;
+    white-space: nowrap;
+    font-size: small;
 }
 div.scroll-div {
     overflow: auto;
